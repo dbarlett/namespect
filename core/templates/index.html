@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>namespect API</title>
+    <meta name="description" content="namespect API by Dylan Barlett">
+    <meta name="viewport" content="width=device-width">
+</head>
+<body>
+    <h1>namespect API v1</h1>
+    <h2>Base URL</h2>
+    <p>All URLs have the following base:<br><pre>{{ request.url }}v1</pre></p>
+    <h2>Normalization</h2>
+    <p>Names are normalized
+    <ol>
+        <li>Transliterate non-ASCII characters to their closest approximation (via <a href="https://pypi.python.org/pypi/Unidecode">Unidecode</a>)</li>
+        <li>Remove all characters except letters (e.g. apostrophes, spaces, and hyphens)</li>
+        <li>Convert to uppercase</li>
+    </ol>
+    <h2>Endpoints</h2>
+    <p>All endpoints accept GET requests, return <code>Content-Type: application/json</code>, and support JSONP via the <code>callback</code> parameter.</p>
+    <dl>
+        <dt><pre>/stats/{name}</pre></dt>
+        <dd>Statistics for a name.
+            <ul>
+                <li><code>given_male</code>: probability that a name is a male given name
+            </ul>
+        </dd>
+        <dd>Parameters:
+            <ul>
+                <li><code>verbose=true</code> (optional): append <code>name_normalized</code> to response</li>
+            </ul>
+        </dd>
+        <dd>Sample responses:
+        <pre>
+GET /v1/stats/regan
+{
+  "given_male": 0.2709003215434084
+}
+GET /v1/stats/dylan?verbose=true
+{
+  "given_male": 0.2709003215434084
+  "name_normalized": "REGAN"
+}</pre>
+        </dd>
+        <dt><pre>/transposed/</pre></dt>
+        <dd>Probability (0<=p<=1) that a name is transposed.
+           <ul>
+                <li><code>p_transposed</code>: probability that a name is transposed
+            </ul>
+        </dd>
+        <dd>Parameters:
+            <ul>
+                <li><code>first_name</code> (required)</li>
+                <li><code>last_name</code> (required)</li>
+                <li><code>gender</code> (optional): <code>M</code> or <code>F</code></li>
+                <li><code>verbose=true</code> (optional): append <code>first_name_normalized</code> and <code>last_name_normalized</code> to response</li>
+            </ul>
+        </dd>
+        <dd>Sample responses:
+        <pre>
+GET /v1/transposed/first_name=regan&last_name=thomas
+{
+  "p_transposed": 0.8884284792087481
+}
+GET /v1/transposed?first_name=regan&last_name=thomas&gender=M&verbose=true
+{
+  "first_name_normalized": "REGAN", 
+  "last_name_normalized": "THOMAS", 
+  "p_transposed": 0.9668191986181087
+}
+GET /v1/transposed?first_name=regan&last_name=thomas&gender=F&verbose=true
+{
+  "first_name_normalized": "REGAN", 
+  "last_name_normalized": "THOMAS", 
+  "p_transposed": 0.020681304747498075
+}
+        </pre>
+        </dd>
+    </dl>
+    <p>Acknowledgements</p>
+    <ul>
+        <li><i><a href="http://www2.census.gov/topics/genealogy/2000surnames/surnames.pdf">Demographic Aspects of Surnames from Census 2000</a></i></li>
+    </ul>
+    <footer class="wrapper">
+        <p>Created by <a href="http://www.dylanbarlett.com">Dylan Barlett</a></p>
+    </footer>
+</body>
+</html>
+
