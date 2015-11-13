@@ -65,4 +65,3 @@ def p_transposed(first_name, last_name, gender=None, verbose=False):
         response["first_name_normalized"] = normalize_name(first_name)
         response["last_name_normalized"] = normalize_name(last_name)
     return response
-

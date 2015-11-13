@@ -52,4 +52,3 @@ class USName(db.Model):
             return 1.0 * self.count_given_male / (
                 self.count_given_male + self.count_given_female
             )
-

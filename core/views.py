@@ -138,6 +138,7 @@ def transposed():
             verbose
         ))
 
+
 # Fallback for static content; note that this is just for local server
 # development, as in the Dreamhost environment the existence of the static
 # content will override Passenger entirely.

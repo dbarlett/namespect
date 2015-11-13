@@ -1,6 +1,7 @@
 #!env/bin/python
 
-import sys, os
+import sys
+import os
 INTERP = os.path.join(os.getcwd(), 'env', 'bin', 'python')
 if sys.executable != INTERP:
     os.execl(INTERP, INTERP, *sys.argv)
