@@ -33,6 +33,6 @@ Configure the environment (`config.py` contains the SQLAlchemy URL):
 $ cd namespect.dylanbarlett.com
 $ cp config.py.dist config.py
 $ nano config.py
-$ setup.sh
+$ ./setup.sh
 ```
 Browse to http://namespect.example.com.
