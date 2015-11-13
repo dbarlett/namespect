@@ -42,7 +42,7 @@
     <h2>Base URL</h2>
     <p>All URLs have the following base:<br><pre>{{ request.url }}v1</pre></p>
     <h2>Normalization</h2>
-    <p>Names are normalized
+    <p>Names are normalized before lookup:
     <ol>
         <li>Transliterate non-ASCII characters to their closest approximation (via <a href="https://pypi.python.org/pypi/Unidecode">Unidecode</a>)</li>
         <li>Remove all characters except letters (e.g. apostrophes, spaces, and hyphens)</li>
@@ -111,7 +111,8 @@ GET /v1/transposed?first_name=regan&last_name=thomas&gender=F&verbose=true
     </dl>
     <p>Acknowledgements</p>
     <ul>
-        <li><i><a href="http://www2.census.gov/topics/genealogy/2000surnames/surnames.pdf">Demographic Aspects of Surnames from Census 2000</a></i></li>
+        <li>Transposition probability formula: <i><a href="http://www2.census.gov/topics/genealogy/2000surnames/surnames.pdf">Demographic Aspects of Surnames from Census 2000</a></i></li>
+        <li>DreamHost configuration: <a href="https://github.com/plaidfluff/dreamcatcher">https://github.com/plaidfluff/dreamcatcher</a></li>
     </ul>
     <footer class="wrapper">
         <p>Created by <a href="http://www.dylanbarlett.com">Dylan Barlett</a>. <a href="https://github.com/dbarlett/namespect">Code</a>.</p>
