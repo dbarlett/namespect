@@ -53,7 +53,9 @@ def not_found(error):
 @app.route("/", methods=["GET"])
 def index():
     return render_template(
-        "index.html"
+        "index.html",
+        ga_property_id=app.config["GA_PROPERTY_ID"],
+        ga_domain_name=app.config["GA_DOMAIN_NAME"]
     )
 
 

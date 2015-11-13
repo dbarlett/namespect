@@ -2,3 +2,7 @@ DEBUG = False
 
 SQLALCHEMY_DATABASE_URI = "mysql+pymysql://user:pass@host/dbname"
 SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+# Google Analytics (leave empty to disable tracking)
+GA_PROPERTY_ID = ""
+GA_DOMAIN_NAME = ""

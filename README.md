@@ -28,7 +28,7 @@ $ rm -rf namespect.dylanbarlett.com
 $ git clone https://github.com/dbarlett/namespect.git namespect.dylanbarlett.com
 ```
 
-Configure the environment (`config.py` contains the SQLAlchemy URL):
+Configure the environment:
 ```sh
 $ cd namespect.dylanbarlett.com
 $ cp config.py.dist config.py
