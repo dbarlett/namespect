@@ -12,7 +12,7 @@ fi
 
 echo "Configuring environment..."
 
-[ ! -f env/bin/activate ] && virtualenv env
+[ ! -f env/bin/activate ] && virtualenv --no-site-packages env
 . env/bin/activate
 
 pip install -qr requirements.txt
