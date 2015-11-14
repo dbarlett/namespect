@@ -40,29 +40,79 @@
 <body>
     <h1>namespect API v1</h1>
     <h2>Base URL</h2>
-    <p>All URLs have the following base:<br><pre>{{ request.url }}v1</pre></p>
-    <h2>Normalization</h2>
-    <p>Names are normalized before lookup:
-    <ol>
-        <li>Transliterate non-ASCII characters to their closest approximation (via <a href="https://pypi.python.org/pypi/Unidecode">Unidecode</a>)</li>
-        <li>Remove all characters except letters (e.g. apostrophes, spaces, and hyphens)</li>
-        <li>Convert to uppercase</li>
-    </ol>
+    <p>All URLs have the following base:</p><pre>{{ request.url }}v1</pre>
     <h2>Endpoints</h2>
     <p>All endpoints accept GET requests, return <code>Content-Type: application/json</code>, and support JSONP via the <code>callback</code> parameter.</p>
     <dl>
-        <dt><pre>/stats/{name}</pre></dt>
-        <dd>Statistics for a name.
+       <dt><pre>/normalize/{name}</pre></dt>
+        <dd><a href="#normalization">Normalize</a> a name.</dd>
+        <dd>Response:
             <ul>
-                <li><code>given_male</code>: probability that a name is a male given name
+                <li><code>normalized</code></li>
             </ul>
         </dd>
+        <dd>Example:
+        <pre>
+GET /v1/normalize/Mary-Pat
+{
+  "normalized": "MARYPAT"
+}
+GET /v1/normalize/Jesús
+{
+  "normalized": "JESUS"
+}
+</pre>
+        </dd>
+        <dd>Parse a name into components (via <a href="http://nameparser.readthedocs.org/en/latest/index.html">nameparser</a>).</dd>
+        <dd>Parameters:
+            <ul>
+                <li><code>capitalize=true</code> (optional): guess the correct capitalization of a name entered in all upper or lower case (will not adjust the case of names entered in mixed case)</li>
+            </ul>
+        </dd>
+        <dd>Response:
+            <ul>
+                <li><code>first</code></li>
+                <li><code>last</code></li>
+                <li><code>middle</code></li>
+                <li><code>nickname</code></li>
+                <li><code>suffix</code></li>
+                <li><code>title</code></li>
+            </ul>
+        </dd>
+        <dd>Examples:
+        <pre>
+GET /v1/parse/Dr. Juan Q. Xavier de la Vega III
+{
+  "first": "Juan",
+  "last": "de la Vega",
+  "middle": "Q. Xavier",
+  "nickname": "",
+  "suffix": "III",
+  "title": "Dr."
+}
+GET /v1/parse/oscar de la renta?capitalize=true
+{
+  "first": "Oscar",
+  "last": "de la Renta",
+  "middle": "",
+  "nickname": "",
+  "suffix": "",
+  "title": ""
+}</pre>
+        </dd>
+        <dt><pre>/stats/{name}</pre></dt>
+        <dd>Statistics for a name (<a href="#normalization">normalized</a>).</dd>
         <dd>Parameters:
             <ul>
                 <li><code>verbose=true</code> (optional): append <code>name_normalized</code> to response</li>
             </ul>
         </dd>
-        <dd>Sample responses:
+        <dd>Response:
+            <ul>
+                <li><code>given_male</code>: probability that a name is a male given name</li>
+            </ul>
+        </dd>
+        <dd>Examples:
         <pre>
 GET /v1/stats/regan
 {
@@ -75,41 +125,53 @@ GET /v1/stats/dylan?verbose=true
 }</pre>
         </dd>
         <dt><pre>/transposed/</pre></dt>
-        <dd>Probability (0<=p<=1) that a name is transposed.
-           <ul>
-                <li><code>p_transposed</code>: probability that a name is transposed
-            </ul>
-        </dd>
+        <dd>Probability (0&lt;=p&lt;=1) that a name (<a href="#normalization">normalized</a>) is transposed.</dd>
         <dd>Parameters:
             <ul>
-                <li><code>first_name</code> (required)</li>
-                <li><code>last_name</code> (required)</li>
+                <li><code>first</code> (required)</li>
+                <li><code>last</code> (required)</li>
                 <li><code>gender</code> (optional): <code>M</code> or <code>F</code></li>
-                <li><code>verbose=true</code> (optional): append <code>first_name_normalized</code> and <code>last_name_normalized</code> to response</li>
+                <li><code>verbose=true</code> (optional): append <code>first_normalized</code> and <code>last_normalized</code> to response</li>
             </ul>
         </dd>
-        <dd>Sample responses:
+        <dd>Response:
+           <ul>
+                <li><code>p_transposed</code>: probability that a name is transposed</li>
+            </ul>
+        </dd>
+        <dd>Examples:
         <pre>
-GET /v1/transposed/first_name=regan&last_name=thomas
+GET /v1/transposed/first=regan&amp;last=thomas
 {
   "p_transposed": 0.8884284792087481
 }
-GET /v1/transposed?first_name=regan&last_name=thomas&gender=M&verbose=true
+GET /v1/transposed?first=regan&amp;last=thomas&amp;gender=M&amp;verbose=true
 {
-  "first_name_normalized": "REGAN", 
-  "last_name_normalized": "THOMAS", 
+  "first_normalized": "REGAN",
+  "last_normalized": "THOMAS",
   "p_transposed": 0.9668191986181087
 }
-GET /v1/transposed?first_name=regan&last_name=thomas&gender=F&verbose=true
+GET /v1/transposed?first=regan&amp;last=thomas&amp;gender=F&amp;verbose=true
 {
-  "first_name_normalized": "REGAN", 
-  "last_name_normalized": "THOMAS", 
+  "first_normalized": "REGAN",
+  "last_normalized": "THOMAS",
   "p_transposed": 0.020681304747498075
 }
         </pre>
         </dd>
     </dl>
-    <p>Acknowledgements</p>
+    <h3 id="normalization">Normalization</h3>
+    <p>Some endpoints normalize names before lookup:
+    <ol>
+        <li>Transliterate non-ASCII characters to their closest approximation (via <a href="https://pypi.python.org/pypi/Unidecode">Unidecode</a>)</li>
+        <li>Remove all characters except letters (e.g. apostrophes, spaces, and hyphens)</li>
+        <li>Convert to uppercase</li>
+    </ol>
+    <h3>Data Sources</h3>
+    <ul>
+        <li><a href=""></a></li>
+    </ul>
+    <h3>Acknowledgements</h3>
     <ul>
         <li>Transposition probability formula: <i><a href="http://www2.census.gov/topics/genealogy/2000surnames/surnames.pdf">Demographic Aspects of Surnames from Census 2000</a></i></li>
         <li>DreamHost configuration: <a href="https://github.com/plaidfluff/dreamcatcher">https://github.com/plaidfluff/dreamcatcher</a></li>

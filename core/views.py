@@ -10,6 +10,7 @@ from flask import url_for
 from core import app
 from core import models
 from core import utils
+from nameparser import HumanName
 
 
 def jsonp(func):
@@ -82,10 +83,19 @@ def debug():
 @app.route("/v1/normalize/<name>", methods=["GET"])
 @jsonp
 def normalize(name):
-    return Response(
-        response=utils.normalize_name(name),
-        mimetype="text/plain",
-    )
+    return jsonify({
+        "normalized": utils.normalize_name(name)
+    })
+
+
+@app.route("/v1/parse/<name>", methods=["GET"])
+@jsonp
+def parse(name):
+    parsed = HumanName(name)
+    capitalize = request.args.get("capitalize", False)
+    if capitalize and capitalize == "true":
+        parsed.capitalize()
+    return jsonify(parsed.as_dict())
 
 
 @app.route("/v1/stats/<name>", methods=["GET"])
@@ -93,10 +103,9 @@ def normalize(name):
 def stats(name):
     response = {}
     norm = utils.normalize_name(name)
-    if request.args.get("verbose"):
-        response = {
-            "name_normalized": norm,
-        }
+    verbose = request.args.get("verbose", None)
+    if verbose and verbose == "true":
+        response["normalized"] = norm
     counts = models.USName.query.get_or_404(norm)
     response["given_male"] = counts.p_given_male()
     return jsonify(response)
@@ -106,8 +115,8 @@ def stats(name):
 @jsonp
 def transposed():
     required_params = [
-        "first_name",
-        "last_name",
+        "first",
+        "last",
     ]
     valid = {}
     errors = []
@@ -134,8 +143,8 @@ def transposed():
         return response
     else:
         return jsonify(utils.p_transposed(
-            valid["first_name"],
-            valid["last_name"],
+            valid["first"],
+            valid["last"],
             valid["gender"],
             verbose
         ))

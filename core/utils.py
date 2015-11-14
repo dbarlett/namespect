@@ -62,6 +62,6 @@ def p_transposed(first_name, last_name, gender=None, verbose=False):
         "p_transposed": 1 - ((r_1 * r_2) / (1 + r_1 * r_2))
     }
     if verbose:
-        response["first_name_normalized"] = normalize_name(first_name)
-        response["last_name_normalized"] = normalize_name(last_name)
+        response["first_normalized"] = normalize_name(first_name)
+        response["last_normalized"] = normalize_name(last_name)
     return response
