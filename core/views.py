@@ -1,4 +1,8 @@
 import json
+import unicodedata
+import dateparser
+import ftfy
+import jellyfish
 from functools import wraps
 from flask import current_app
 from flask import jsonify
@@ -81,17 +85,23 @@ def debug():
     return jsonify(info)
 
 
-@app.route("/v1/normalize/<name>", methods=["GET"])
+@app.route("/v1/text/fix-encoding/<string>", methods=["GET"])
 @jsonp
-def normalize(name):
+def fix_encoding(string):
     return jsonify({
-        "normalized": utils.normalize_name(name)
+        "fixed": ftfy.fix_encoding(string)
     })
 
 
-@app.route("/v1/parse/<name>", methods=["GET"])
+@app.route("/v1/text/fix-text/<string>", methods=["GET"])
 @jsonp
-def parse(name):
+def fix_text(string):
+    """See https://ftfy.readthedocs.org/en/latest/#ftfy.fix_text
+    """
+    return jsonify({
+        "fixed": ftfy.fix_text(string)
+    })
+
     parsed = HumanName(name)
     capitalize = request.args.get("capitalize", False)
     if capitalize and capitalize == "true":
@@ -99,7 +109,7 @@ def parse(name):
     return jsonify(parsed.as_dict())
 
 
-@app.route("/v1/stats/<name>", methods=["GET"])
+@app.route("/v1/name/stats/<name>", methods=["GET"])
 @jsonp
 def stats(name):
     response = {}
@@ -112,7 +122,7 @@ def stats(name):
     return jsonify(response)
 
 
-@app.route("/v1/transposed", methods=["GET"])
+@app.route("/v1/name/transposed", methods=["GET"])
 @jsonp
 def transposed():
     required_params = [
