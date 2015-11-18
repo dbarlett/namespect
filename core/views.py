@@ -102,6 +102,84 @@ def fix_text(string):
         "fixed": ftfy.fix_text(string)
     })
 
+
+@app.route("/v1/text/explain-unicode/<string>", methods=["GET"])
+@jsonp
+def explain_unicode(string):
+    """See ftfy.explain_unicode().
+    """
+    response = []
+    for char in string:
+        if ftfy.compatibility.is_printable(char):
+            display = char
+        else:
+            display = char.encode("unicode-escape").decode("ascii")
+        response.append({
+            "code": "U+{0:04X}".format(ord(char)),
+            "display": display,
+            "category": unicodedata.category(char),
+            "name": unicodedata.name(char, "<unknown>"),
+        })
+    # jsonify doesn't allow toplevel lists for security
+    return jsonify({"characters": response})
+
+
+@app.route("/v1/text/normalize/<string>", methods=["GET"])
+@jsonp
+def normalize(string):
+    """Normalize a string for DB lookups.
+    """
+    return jsonify({
+        "normalized": utils.normalize_name(string)
+    })
+
+
+@app.route("/v1/text/fuzzy/<string>", methods=["GET"])
+@jsonp
+def fuzzy(string):
+    return jsonify({
+        "metaphone": jellyfish.metaphone(string),
+        "soundex": jellyfish.soundex(string),
+        "nysiis": jellyfish.nysiis(string),
+        "match_rating_codex": jellyfish.match_rating_codex(string),
+    })
+
+
+@app.route("/v1/text/distance/<string_1>/<string_2>", methods=["GET"])
+@jsonp
+def distance(string_1, string_2):
+    """Compute the edit distance between two strings.
+    """
+    return jsonify({
+        "levenshtein": jellyfish.levenshtein_distance(string_1, string_2),
+        "damerau-levenshtein": jellyfish.damerau_levenshtein_distance(
+            string_1,
+            string_2
+        ),
+        "jaro": jellyfish.jaro_distance(string_1, string_2),
+        "jaro-winkler": jellyfish.jaro_winkler(string_1, string_2),
+        "match_rating_codex": jellyfish.match_rating_comparison(
+            string_1,
+            string_2
+        ),
+        "sift3": mailcheck.sift3_distance(string_1, string_2),
+    })
+
+
+@app.route("/v1/datetime/parse/<datetime>", methods=["GET"])
+@jsonp
+def parse_datetime(datetime):
+    parsed = dateparser.parse(datetime)
+    if parsed:
+        response = {"iso8601": parsed.isoformat()}
+    else:
+        response = {"iso8601": False}
+    return jsonify(response)
+
+
+@app.route("/v1/name/parse/<name>", methods=["GET"])
+@jsonp
+def parse_name(name):
     parsed = HumanName(name)
     capitalize = request.args.get("capitalize", False)
     if capitalize and capitalize == "true":
