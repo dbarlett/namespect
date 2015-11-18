@@ -151,7 +151,7 @@ def transposed():
 
 
 # Fallback for static content; note that this is just for local server
-# development, as in the Dreamhost environment the existence of the static
+# development, as in the DreamHost environment the existence of the static
 # content will override Passenger entirely.
 @app.route('/<path:filename>')
 def static_content(filename):
