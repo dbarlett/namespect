@@ -10,6 +10,7 @@ from flask import url_for
 from core import app
 from core import models
 from core import utils
+from mailcheck import mailcheck
 from nameparser import HumanName
 
 
@@ -148,6 +149,17 @@ def transposed():
             valid["gender"],
             verbose
         ))
+
+
+@app.route("/v1/email/suggest/<email>", methods=["GET"])
+@jsonp
+def suggest(email):
+    suggestion = mailcheck.suggest(email)
+    if suggestion:
+        suggestion["suggestion"] = True
+    else:
+        suggestion = {"suggestion": False}
+    return jsonify(suggestion)
 
 
 # Fallback for static content; note that this is just for local server
