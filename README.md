@@ -24,13 +24,13 @@ Login as `myuser`, remove the default content, and clone this repo:
 ```sh
 $ pwd
 /home/myuser
-$ rm -rf namespect.dylanbarlett.com
-$ git clone https://github.com/dbarlett/namespect.git namespect.dylanbarlett.com
+$ rm -rf namespect.example.com
+$ git clone https://github.com/dbarlett/namespect.git namespect.example.com
 ```
 
 Configure the environment:
 ```sh
-$ cd namespect.dylanbarlett.com
+$ cd namespect.example.com
 $ cp config.py.dist config.py
 $ nano config.py
 $ ./setup.sh
