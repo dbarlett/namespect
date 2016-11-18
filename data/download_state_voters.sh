@@ -16,7 +16,7 @@ ST=states/CT
 echo "Downloading Connecticut data to $ST/"
 for i in {1..4};
 do
-  wget --no-clobber --directory-prefix=$ST  http://connvoters.com/downloads/20141202/VOTELCT$i.ZIP
+  wget --no-clobber --directory-prefix=$ST  http://connvoters.com/downloads/20160209/VOTELCT$i.ZIP
   unzip -u -d $ST $ST/VOTELCT$i.ZIP
 done
 # Last, First, DOB, Gender
