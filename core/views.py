@@ -3,6 +3,7 @@ import unicodedata
 import dateparser
 import ftfy
 import jellyfish
+import pymailcheck
 from functools import wraps
 from flask import current_app
 from flask import jsonify
@@ -14,7 +15,6 @@ from flask import url_for
 from core import app
 from core import models
 from core import utils
-from mailcheck import mailcheck
 from nameparser import HumanName
 
 
@@ -162,7 +162,7 @@ def distance(string_1, string_2):
             string_1,
             string_2
         ),
-        "sift3": mailcheck.sift3_distance(string_1, string_2),
+        "sift3": pymailcheck.sift3_distance(string_1, string_2),
     })
 
 
@@ -242,7 +242,7 @@ def transposed():
 @app.route("/v1/email/suggest/<email>", methods=["GET"])
 @jsonp
 def suggest(email):
-    suggestion = mailcheck.suggest(email)
+    suggestion = pymailcheck.suggest(email)
     if suggestion:
         suggestion["suggestion"] = True
     else:
