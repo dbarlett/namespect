@@ -1,4 +1,5 @@
 env/
 data/states/
+data/npi/
 config.py
 *.py[cod]
