@@ -41,7 +41,7 @@ echo "Wrote Michigan data to $ST/$ST.csv"
 
 ST=states/NC
 echo "Downloading North Carolina data to $ST/"
-wget --no-clobber --directory-prefix=$ST ftp://alt.ncsbe.gov/data/ncvoter_Statewide.zip
+wget --no-clobber --directory-prefix=$ST https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvhis_Statewide.zip
 unzip -u -d $ST $ST/ncvoter_Statewide.zip
 # Last, First, Gender, Age
 tail --lines=+2 $ST/ncvoter_Statewide.txt | cut --output-delimiter="," --fields=10,11,29,30 > $ST/$ST.csv
