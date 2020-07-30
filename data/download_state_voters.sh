@@ -67,6 +67,12 @@ wget --no-clobber --directory-prefix=$ST https://s3.amazonaws.com/dl.ncsbe.gov/d
 unzip -u -d $ST $ST/ncvoter_Statewide.zip
 # Last, First, Gender, Age
 tail --lines=+2 $ST/ncvoter_Statewide.txt | cut --output-delimiter="," --fields=10,11,29,30 > $ST/$ST.csv
+
+ST=NV
+STATE=Nevada
+# Run report manually and download
+# First, Last, DOB
+cut --delimiter="," --output-delimiter="," --fields=2,3,4 $ST/VoterList*.csv > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=OH

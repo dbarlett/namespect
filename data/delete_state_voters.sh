@@ -21,6 +21,9 @@ rm -f states/MI/EntireStateVoters.zip
 rm -f states/NC/*.txt
 rm -f states/NC/*.zip
 
+rm -f states/NV/VoterList*.csv
+rm -f states/NV/VoterList*.zip
+
 rm -f states/OH/*.TXT
 rm -f states/OH/*.zip
 
