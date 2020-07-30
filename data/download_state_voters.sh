@@ -11,16 +11,17 @@ unzip -u -d $ST $ST/VR_VH.zip
 # DOB, Last, First
 tail --quiet --lines=+2 --quiet $ST/VR_VH.csv | cut --delimiter="," -f 6,9,10 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
+
 ST=CO
 STATE=Colorado
 echo "Downloading $STATE data to $ST"
-for i in {1..14};
+for i in {1..8};
 do
-  wget --no-clobber --directory-prefix=$ST http://coloradovoters.info/downloads/20160201/part$i.zip
-  unzip -u -d $ST $ST/part$i.zip
+  #wget --no-clobber --directory-prefix=$ST https://cdn-0.coloradovoters.info/downloads/20200301/Registered_Voters_List_%20Part$i.zip
+  unzip -u -d $ST $ST/Registered_Voters_List_\ Part$i.zip
 done
-# Last, First, Birth Year, Gender
-tail --lines=+2 --quiet $ST/Registered_Voters_List_\ Part*.txt | cut --delimiter="," -f 4,5,31,32 > $ST/$ST.csv
+# Last, First, YOB, Gender
+tail --quiet --lines=+2 --quiet $ST/Registered_Voters_List_\ Part*.txt | cut --delimiter="," -f 4,5,30,31 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=CT
