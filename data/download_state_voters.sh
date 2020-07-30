@@ -107,7 +107,7 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=VT
 STATE=Vermont
 # Last, First, YOB
-tail --lines=+3 $ST/*.txt | cut --delimiter="|" --output-delimiter="," --fields=2,3,13 > $ST/$ST.csv
+tail --quiet --lines=+3 $ST/*.txt | cut --delimiter="|" --output-delimiter="," --fields=2,3,13 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=WA
