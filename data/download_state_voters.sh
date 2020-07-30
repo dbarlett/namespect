@@ -79,12 +79,13 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=OH
 STATE=Ohio
 echo "Downloading $STATE data to $ST"
-wget --no-clobber --directory-prefix=$ST ftp://sosftp.sos.state.oh.us/free/Voter/SWVF_1_44.zip
-wget --no-clobber --directory-prefix=$ST ftp://sosftp.sos.state.oh.us/free/Voter/SWVF_45_88.zip
-unzip -u -d $ST $ST/SWVF_1_44.zip
-unzip -u -d $ST $ST/SWVF_45_88.zip
+for i in {363..366};
+do
+  wget --no-clobber --content-disposition --directory-prefix=$ST "https://www6.sos.state.oh.us/ords/f?p=VOTERFTP:DOWNLOAD::FILE:NO:2:P2_PRODUCT_NUMBER:$i"
+done
+gzip --keep --decompress $ST/*.txt.gz
 # Last, First, DOB
-tail --lines=+2 $ST/*.TXT | cut --delimiter="," --fields=4,5,8 > $ST/$ST.csv
+tail --quiet --lines=+2 $ST/*.txt | cut --delimiter="," --fields=4,5,8 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=RI
