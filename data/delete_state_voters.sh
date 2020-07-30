@@ -24,7 +24,7 @@ rm -f states/NC/*.zip
 rm -f states/OH/*.TXT
 rm -f states/OH/*.zip
 
-rm -f states/RI/2015-01.txt
+rm -f states/RI/2017-01.txt
 
 rm -f states/VT/*.txt
 

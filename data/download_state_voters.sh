@@ -83,9 +83,9 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=RI
 STATE="Rhode Island"
 echo "Downloading $STATE data to $ST"
-wget --no-clobber --directory-prefix=$ST http://rivoters.com/download/2015-01.txt
+wget --no-clobber --directory-prefix=$ST https://rivoters.com/download/2017-01.txt
 # Last, First, DOB, Gender
-tail --lines=+3 $ST/2015-01.txt | cut --delimiter="|" --output-delimiter="," --fields=3,4,35,38 > $ST/$ST.csv
+tail --quiet --lines=+3 $ST/2017-01.txt | cut --delimiter="|" --output-delimiter="," --fields=3,4,35,38 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=VT
