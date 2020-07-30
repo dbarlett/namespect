@@ -96,9 +96,8 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=WA
 STATE=Washington
-echo "Downloading $STATE data to $ST"
-wget --no-clobber --directory-prefix=$ST http://www.sos.wa.gov/elections/vrdb/download/vrdb-current.zip
-unzip -u -d $ST $ST/vrdb-current.zip
+# Manual download
+unzip -u -d $ST $ST/2913643776.zip
 # First, Last, DOB, Gender
-tail --lines=+2 $ST/20161031_VRDB_Extract.txt | cut --output-delimiter="," --only-delimited --fields=4,6,8,9 > $ST/$ST.csv
+tail --quiet --lines=+2 $ST/*_VRDB_Extract_2.txt | cut --delimiter "|" --output-delimiter="," --fields=2,4,6,7 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
