@@ -47,9 +47,9 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=FL
 STATE=Florida
 echo "Downloading $STATE data to $ST"
-wget -r --no-clobber --no-parent --no-host-directories --cut-dirs=3 --reject="index.html" --directory-prefix=$ST http://flvoters.com/download/20161031/20161101_VoterDetail/
+wget -r --execute robots=off --no-clobber --no-parent --no-host-directories --cut-dirs=3 --reject="index.html" --directory-prefix=$ST https://flvoters.com/download/20200630/
 # Last, First, Gender, DOB
-cut --output-delimiter="," --fields=3,5,20,22 $ST/*_20161101.txt > $ST/$ST.csv
+cut --output-delimiter="," --fields=3,5,20,22 $ST/*.txt > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=MI

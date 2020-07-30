@@ -12,6 +12,7 @@ rm -f states/CT/*.ZIP
 
 rm -f states/DE/ActiveReg.csv
 
+rm -f states/FL/*.html*
 rm -f states/FL/*.txt
 rm -f states/FL/*.zip
 
