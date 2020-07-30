@@ -89,6 +89,13 @@ gzip --keep --decompress $ST/*.txt.gz
 tail --quiet --lines=+2 $ST/*.txt | cut --delimiter="," --fields=4,5,8 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
+ST=OK
+STATE=Oklahoma
+# Manual download
+# Last, First, DOB
+unzip -u -d ST/CDSW_VR_*.zip
+tail --quiet --lines=+2 $ST/CD*_vr.csv | cut --delimiter="," --output-delimiter="," --fields=2,3,16 > $ST/$ST.csv
+
 ST=RI
 STATE="Rhode Island"
 echo "Downloading $STATE data to $ST"
