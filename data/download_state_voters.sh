@@ -54,10 +54,10 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=MI
 STATE=Michigan
 echo "Downloading $STATE data to $ST"
-wget --no-clobber --directory-prefix=$ST http://michiganvoters.info/download/20160901/FOIA_VOTERS.zip
-unzip -u -d $ST $ST/FOIA_VOTERS.zip
-# Last, First, Birth Year, Gender
-cut --output-delimiter="," --characters=1-35,36-55,79-82,83 $ST/entire_state_v.lst | tr --delete " " > $ST/$ST.csv
+wget --no-clobber --directory-prefix=$ST https://michiganvoters.info/download/20200302/EntireStateVoter.zip
+unzip -u -d $ST $ST/EntireStateVoter.zip
+# Last, First, YOB, Gender
+tail --quiet --lines=+2 $ST/EntireStateVoters.csv | cut --delimiter="," --output-delimiter="," --fields=1,2,5,6 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=NC

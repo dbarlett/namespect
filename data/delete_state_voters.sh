@@ -15,8 +15,8 @@ rm -f states/DE/ActiveReg.csv
 rm -f states/FL/*.txt
 rm -f states/FL/*.zip
 
-rm -f states/MI/*.zip
-rm -f states/MI/entire_state_v.lst
+rm -f states/MI/EntireStateVoters.csv
+rm -f states/MI/EntireStateVoters.zip
 
 rm -f states/NC/*.txt
 rm -f states/NC/*.zip
