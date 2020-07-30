@@ -38,9 +38,9 @@ echo "Wrote $STATE data to $ST/$ST.csv"
 ST=DE
 STATE=Delaware
 echo "Downloading $STATE data to $ST"
-wget --no-clobber --directory-prefix=$ST http://delawarevoters.info/download/20150521/ActiveReg.csv
+wget --no-clobber --directory-prefix=$ST https://delawarevoters.info/download/20150521/ActiveReg.csv
 # Last, First, YOB
-tail --lines=+2 $ST/ActiveReg.csv | cut --delimiter "," -f 2,3,6 > $ST/$ST.csv
+tail --quiet --lines=+2 $ST/ActiveReg.csv | cut --delimiter "," -f 2,3,6 > $ST/$ST.csv
 echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=FL

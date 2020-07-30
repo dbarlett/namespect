@@ -7,10 +7,10 @@ rm -f states/AR/VR_VH.zip
 rm -f states/CO/*.txt
 rm -f states/CO/*.zip
 
-rm -f states/DE/ActiveReg.csv
-
 rm -rf states/CT/SSP
 rm -f states/CT/*.ZIP
+
+rm -f states/DE/ActiveReg.csv
 
 rm -f states/FL/*.txt
 rm -f states/FL/*.zip
