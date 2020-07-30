@@ -28,8 +28,8 @@ STATE=Connecticut
 echo "Downloading $STATE data to $ST"
 for i in {1..4};
 do
-  wget --no-clobber --directory-prefix=$ST http://connvoters.com/downloads/20160209/votelct$i.zip
-  unzip -u -d $ST $ST/votelct$i.zip
+  wget --no-clobber --directory-prefix=$ST https://connvoters.com/downloads/20191231/VOTELCT$i.ZIP
+  unzip -u -d $ST $ST/VOTELCT$i.ZIP
 done
 # Last, First, DOB, Gender
 cut --delimiter "," -f 3,4,38,42 $ST/SSP/ELCT/VOTER/EXT* | tr --delete " " > $ST/$ST.csv
