@@ -67,7 +67,8 @@ echo "Downloading $STATE data to $ST"
 wget --no-clobber --directory-prefix=$ST https://s3.amazonaws.com/dl.ncsbe.gov/data/ncvoter_Statewide.zip
 unzip -u -d $ST $ST/ncvoter_Statewide.zip
 # Last, First, Gender, Age
-tail --lines=+2 $ST/ncvoter_Statewide.txt | cut --output-delimiter="," --fields=10,11,29,30 > $ST/$ST.csv
+tail --quiet --lines=+2 $ST/ncvoter_Statewide.txt | cut --output-delimiter="," --fields=10,11,29,30 > $ST/$ST.csv
+echo "Wrote $STATE data to $ST/$ST.csv"
 
 ST=NV
 STATE=Nevada
