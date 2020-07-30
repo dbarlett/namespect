@@ -4,6 +4,13 @@
 mkdir -p states
 cd states
 
+ST=AR
+STATE=Arkansas
+wget --no-clobber --directory-prefix=$ST https://arkvoters.com/download/20200218/VR_VH.zip
+unzip -u -d $ST $ST/VR_VH.zip
+# DOB, Last, First
+tail --quiet --lines=+2 --quiet $ST/VR_VH.csv | cut --delimiter="," -f 6,9,10 > $ST/$ST.csv
+echo "Wrote $STATE data to $ST/$ST.csv"
 ST=CO
 STATE=Colorado
 echo "Downloading $STATE data to $ST"

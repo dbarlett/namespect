@@ -1,6 +1,9 @@
 #!/bin/bash
 # Delete state voter source files.
 
+rm -f states/AR/VR_VH.csv
+rm -f states/AR/VR_VH.zip
+
 rm -f states/CO/*.txt
 rm -f states/CO/*.zip
 
